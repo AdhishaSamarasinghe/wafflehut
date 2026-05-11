@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -14,6 +15,20 @@ function getChapterForFrame(frame: number) {
   return sequenceChapters.find((chapter) => frame + 1 >= chapter.startFrame && frame + 1 <= chapter.endFrame) ?? sequenceChapters[sequenceChapters.length - 1];
 }
 
+function FloatingAccent({
+  className,
+  animate,
+  transition,
+  style
+}: {
+  className: string;
+  animate: any;
+  transition: any;
+  style?: CSSProperties;
+}) {
+  return <motion.div aria-hidden className={`absolute pointer-events-none ${className}`} animate={animate} transition={transition} style={style} />;
+}
+
 export default function FrameSequence() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -24,6 +39,7 @@ export default function FrameSequence() {
   const [ready, setReady] = useState(false);
 
   const chapter = useMemo(() => getChapterForFrame(frame), [frame]);
+  const chapterIndex = useMemo(() => Math.max(0, sequenceChapters.findIndex((item) => item.title === chapter.title)), [chapter]);
 
   const glowX = useMotionValue(0.45);
   const glowY = useMotionValue(0.3);
@@ -31,6 +47,7 @@ export default function FrameSequence() {
   const glowYSpring = useSpring(glowY, { stiffness: 60, damping: 18, mass: 0.6 });
   const glowTranslateX = useTransform(glowXSpring, (value) => `${value * 100}%`);
   const glowTranslateY = useTransform(glowYSpring, (value) => `${value * 100}%`);
+  const progressPercent = ((frame + 1) / FRAME_COUNT) * 100;
 
   function drawFrame(nextFrame: number) {
     const canvas = canvasRef.current;
@@ -82,9 +99,7 @@ export default function FrameSequence() {
 
     let cancelled = false;
 
-    Promise.all(
-      loadedImages.map((image) => image.decode().catch(() => undefined))
-    ).finally(() => {
+    Promise.all(loadedImages.map((image) => image.decode().catch(() => undefined))).finally(() => {
       if (!cancelled) {
         setReady(true);
         drawFrame(0);
@@ -114,7 +129,7 @@ export default function FrameSequence() {
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: "top top",
-      end: () => `+=${Math.max(window.innerHeight * 9, FRAME_COUNT * 72)}`,
+      end: () => `+=${Math.max(window.innerHeight * 9.5, FRAME_COUNT * 68)}`,
       scrub: 1,
       onUpdate: (self) => updateFrame(self.progress),
       onRefresh: (self) => updateFrame(self.progress)
@@ -146,7 +161,7 @@ export default function FrameSequence() {
     <section
       ref={sectionRef}
       className="relative overflow-hidden"
-      style={{ height: `${Math.max(900, FRAME_COUNT * 72)}px` }}
+      style={{ height: `${Math.max(1000, FRAME_COUNT * 68)}px` }}
       onPointerMove={(event) => {
         const target = event.currentTarget.getBoundingClientRect();
         const x = (event.clientX - target.left) / target.width;
@@ -157,58 +172,93 @@ export default function FrameSequence() {
         document.documentElement.style.setProperty("--glow-y", `${y * 100}%`);
       }}
     >
-      <div className="sticky top-0 h-screen overflow-hidden bg-brand-black">
+      <div className="sticky top-0 h-screen overflow-hidden bg-waffle-night">
         <motion.div
           className="absolute inset-0"
           style={{
-            background: "radial-gradient(circle at center, rgba(215, 180, 106, 0.1), transparent 55%), linear-gradient(180deg, rgba(255,255,255,0.04), transparent 24%)",
+            background: "radial-gradient(circle at center, rgba(255, 179, 71, 0.22), transparent 50%), radial-gradient(circle at 25% 20%, rgba(255, 107, 138, 0.18), transparent 18%), linear-gradient(180deg, rgba(255,255,255,0.04), transparent 24%)",
             x: glowTranslateX,
             y: glowTranslateY
           }}
         />
-        <div className="luxury-grid pointer-events-none absolute inset-0 opacity-[0.18]" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.2),transparent_18%),radial-gradient(circle_at_50%_60%,rgba(215,180,106,0.22),transparent_26%)] opacity-70 blur-3xl" />
+        <div className="cartoon-grid pointer-events-none absolute inset-0 opacity-[0.2]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.2),transparent_18%),radial-gradient(circle_at_50%_60%,rgba(255,179,71,0.22),transparent_26%),radial-gradient(circle_at_84%_28%,rgba(125,108,255,0.2),transparent_16%)] opacity-80 blur-3xl" />
+
+        <FloatingAccent
+          className="left-[5%] top-[10%] h-16 w-16 rounded-full bg-waffle-strawberry/80 blur-[1px]"
+          animate={{ y: [0, -12, 0], x: [0, 8, 0], scale: [1, 1.08, 1] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <FloatingAccent
+          className="right-[8%] top-[14%] h-5 w-5 rounded-full bg-waffle-cream shadow-[0_0_24px_rgba(255,244,207,0.75)]"
+          animate={{ y: [0, -24, 0], opacity: [0.5, 1, 0.5], scale: [0.8, 1.2, 0.8] }}
+          transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <FloatingAccent
+          className="left-[16%] top-[24%] h-6 w-6 rounded-full bg-waffle-blueberry shadow-[0_0_22px_rgba(125,108,255,0.7)]"
+          animate={{ y: [0, 16, 0], rotate: [0, 18, 0] }}
+          transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <FloatingAccent
+          className="right-[18%] top-[32%] h-7 w-7 rounded-[35%] bg-waffle-honey shadow-[0_0_20px_rgba(255,179,71,0.75)]"
+          animate={{ y: [0, -10, 0], rotate: [0, -10, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <FloatingAccent
+          className="left-[10%] bottom-[18%] h-4 w-4 rounded-full bg-waffle-mint"
+          animate={{ x: [0, 10, 0], y: [0, -8, 0], scale: [1, 1.3, 1] }}
+          transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <FloatingAccent
+          className="right-[12%] bottom-[20%] h-3.5 w-3.5 rounded-full bg-waffle-frosting shadow-[0_0_18px_rgba(255,248,251,0.85)]"
+          animate={{ y: [0, 12, 0], opacity: [0.65, 1, 0.65] }}
+          transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <FloatingAccent
+          className="left-[48%] top-[18%] h-14 w-14 rounded-full bg-waffle-cream/30 blur-[2px]"
+          animate={{ y: [0, -18, 0], scale: [1, 1.15, 1] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        <div className="absolute left-[50%] top-[9%] h-28 w-28 -translate-x-1/2 rounded-full border border-white/10 bg-white/5 blur-2xl" />
 
         <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-black/20 to-black/85" />
 
         <div className="relative z-10 mx-auto flex h-full w-full max-w-7xl items-end px-5 pb-8 pt-24 sm:px-6 md:px-10 lg:items-center lg:pb-14">
-          <div className="grid w-full gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+          <div className="grid w-full gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div className="max-w-3xl">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={chapter.title}
-                  initial={{ opacity: 0, y: 24, filter: "blur(14px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, y: -18, filter: "blur(18px)" }}
-                  transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                  className="mb-5 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-brand-cream/80 backdrop-blur-xl"
-                >
-                  <span className="h-2 w-2 rounded-full bg-brand-gold shadow-[0_0_24px_rgba(215,180,106,0.85)]" />
-                  Scroll for the reveal
-                </motion.div>
-              </AnimatePresence>
-              <AnimatePresence mode="wait">
-                <motion.h1
-                  key={`${chapter.title}-hero`}
-                  initial={{ opacity: 0, y: 32, filter: "blur(18px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, y: -24, filter: "blur(20px)" }}
-                  transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-                  className="font-serif text-5xl leading-[0.92] tracking-tight text-brand-cream text-glow sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7.5rem]"
-                >
-                  Crafted For Sweet Cravings
-                </motion.h1>
-              </AnimatePresence>
-              <motion.p
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                className="mb-5 inline-flex items-center gap-3 rounded-full border-2 border-white/12 bg-white/8 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-waffle-cream/90 backdrop-blur-xl"
+              >
+                <span className="h-2.5 w-2.5 rounded-full bg-waffle-strawberry shadow-[0_0_18px_rgba(255,107,138,0.75)]" />
+                Scroll to bake the reel
+              </motion.div>
+              <motion.h1
+                initial={{ opacity: 0, y: 32, rotate: -1.5, filter: "blur(16px)" }}
+                animate={{ opacity: 1, y: 0, rotate: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
+                className="font-display text-5xl leading-[0.9] tracking-tight text-waffle-cream cartoon-outline sm:text-6xl md:text-7xl lg:text-8xl xl:text-[8rem]"
+              >
+                Hot • Sweet • Crispy
+              </motion.h1>
+              <motion.div
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.18, duration: 0.7 }}
-                className="mt-6 max-w-2xl text-base leading-7 text-brand-cream/72 sm:text-lg md:text-xl"
+                className="mt-6 max-w-2xl"
               >
-                Luxury Belgian waffles with premium toppings, staged with the pacing and gloss of a high-end dessert commercial.
-              </motion.p>
+                <p className="text-balance text-2xl font-semibold text-waffle-frosting sm:text-3xl md:text-4xl">
+                  The happiest waffles in town.
+                </p>
+                <p className="mt-4 max-w-xl text-base leading-7 text-waffle-cream/78 sm:text-lg md:text-xl">
+                  Scroll down to watch the full cartoon dessert reel: batter, Nutella, berries, banana slices, cream, and honey all land in a glossy animated finale.
+                </p>
+              </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 18 }}
@@ -217,29 +267,29 @@ export default function FrameSequence() {
                 className="mt-8 flex flex-wrap items-center gap-4"
               >
                 <a
-                  href="#menu"
-                  className="group inline-flex items-center gap-3 rounded-full bg-[linear-gradient(135deg,#d7b46a_0%,#f8e4b0_42%,#7f5525_100%)] bg-[length:200%_200%] px-6 py-3 text-sm font-semibold text-black shadow-[0_16px_50px_rgba(215,180,106,0.3)] transition-transform duration-300 hover:scale-[1.03]"
+                  href="#featured"
+                  className="group inline-flex items-center gap-3 rounded-full bg-[linear-gradient(135deg,#ffb347_0%,#ff6b8a_42%,#7d6cff_100%)] bg-[length:200%_200%] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_50px_rgba(255,107,138,0.28)] transition-transform duration-300 hover:scale-[1.04]"
                 >
-                  View Menu
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  Order the Magic
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">{"->"}</span>
                 </a>
                 <a
                   href="#about"
-                  className="inline-flex items-center gap-3 rounded-full border border-white/14 bg-white/6 px-6 py-3 text-sm font-semibold text-brand-cream/90 shadow-glow backdrop-blur-xl transition-transform duration-300 hover:scale-[1.03]"
+                  className="inline-flex items-center gap-3 rounded-full border-2 border-white/16 bg-white/8 px-6 py-3 text-sm font-semibold text-waffle-cream shadow-[0_10px_0_rgba(64,31,16,0.5)] backdrop-blur-xl transition-transform duration-300 hover:scale-[1.04]"
                 >
-                  Our Story
+                  Peek Inside
                 </a>
               </motion.div>
 
               <div className="mt-10 grid max-w-xl grid-cols-3 gap-3 sm:gap-4">
                 {[
-                  ["12 min", "Fresh to plate"],
-                  ["129", "Cinematic frames"],
-                  ["5-star", "Dessert ambiance"]
+                  ["129", "frames"],
+                  ["7", "sweet chapters"],
+                  ["60fps", "smooth-ish magic"]
                 ].map(([value, label]) => (
-                  <div key={label} className="glass-panel rounded-2xl px-4 py-4 shadow-soft">
-                    <div className="text-lg font-semibold text-brand-cream sm:text-2xl">{value}</div>
-                    <div className="mt-1 text-xs uppercase tracking-[0.28em] text-brand-cream/55">{label}</div>
+                  <div key={label} className="cartoon-panel rounded-3xl px-4 py-4">
+                    <div className="text-lg font-semibold text-waffle-cream sm:text-2xl">{value}</div>
+                    <div className="mt-1 text-xs uppercase tracking-[0.28em] text-waffle-cream/60">{label}</div>
                   </div>
                 ))}
               </div>
@@ -249,34 +299,67 @@ export default function FrameSequence() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.7 }}
-              className="ml-auto w-full max-w-sm self-end rounded-[1.75rem] border border-white/10 bg-black/35 p-5 shadow-[0_30px_90px_rgba(0,0,0,0.4)] backdrop-blur-2xl"
+              className="ml-auto w-full max-w-md self-end rounded-[2rem] border border-white/12 bg-black/30 p-5 shadow-[0_30px_90px_rgba(0,0,0,0.36)] backdrop-blur-2xl"
             >
-              <div className="flex items-center justify-between text-xs uppercase tracking-[0.28em] text-brand-cream/55">
+              <div className="flex items-center justify-between text-xs uppercase tracking-[0.28em] text-waffle-cream/64">
                 <span>{chapter.eyebrow}</span>
                 <span>{String(frame + 1).padStart(3, "0")}/{FRAME_COUNT}</span>
               </div>
               <AnimatePresence mode="wait">
                 <motion.h2
                   key={chapter.title}
-                  initial={{ opacity: 0, y: 18, filter: "blur(16px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, y: -12, filter: "blur(18px)" }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-4 font-serif text-4xl leading-none text-brand-cream"
+                  initial={{ opacity: 0, y: 14, rotate: -2, filter: "blur(12px)" }}
+                  animate={{ opacity: 1, y: 0, rotate: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: -10, rotate: 1, filter: "blur(14px)" }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  className="mt-3 font-display text-3xl leading-[0.95] text-waffle-cream"
                 >
                   {chapter.title}
                 </motion.h2>
               </AnimatePresence>
-              <p className="mt-4 text-sm leading-7 text-brand-cream/72">{chapter.description}</p>
-              <div className="mt-6 h-px w-full bg-gradient-to-r from-transparent via-brand-gold/80 to-transparent" />
-              <p className="mt-5 text-xs uppercase tracking-[0.3em] text-brand-cream/45">
-                Swipe, scroll, or glide through the reveal
-              </p>
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={`${chapter.title}-desc`}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.4 }}
+                  className="mt-4 text-sm leading-7 text-waffle-cream/74"
+                >
+                  {chapter.description}
+                </motion.p>
+              </AnimatePresence>
+              <div className="mt-6 grid gap-3">
+                <div className="h-2 overflow-hidden rounded-full bg-white/10">
+                  <motion.div
+                    className="h-full rounded-full bg-[linear-gradient(90deg,#ffb347,#ff6b8a,#7d6cff)] bg-[length:200%_200%]"
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
+                <div className="flex flex-wrap gap-2 text-[0.65rem] uppercase tracking-[0.22em] text-waffle-cream/58">
+                  {sequenceChapters.map((item, index) => (
+                    <span
+                      key={item.title}
+                      className={`rounded-full px-3 py-1 ${index === chapterIndex ? "bg-white/14 text-waffle-cream" : "bg-white/5"}`}
+                    >
+                      {item.title}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                <div className="rounded-3xl border border-white/10 bg-white/6 p-4">
+                  <div className="text-xs uppercase tracking-[0.26em] text-waffle-cream/54">Current frame</div>
+                  <div className="mt-2 text-2xl font-semibold text-waffle-cream">{String(frame + 1).padStart(3, "0")}</div>
+                </div>
+                <div className="rounded-3xl border border-white/10 bg-white/6 p-4">
+                  <div className="text-xs uppercase tracking-[0.26em] text-waffle-cream/54">Scroll progress</div>
+                  <div className="mt-2 text-2xl font-semibold text-waffle-cream">{Math.round(progressPercent)}%</div>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
-
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black via-black/70 to-transparent" />
       </div>
     </section>
   );

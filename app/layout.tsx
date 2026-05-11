@@ -1,26 +1,26 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Baloo_2, Fredoka } from "next/font/google";
 import "./globals.css";
 
-const serif = Cormorant_Garamond({
+const display = Baloo_2({
   subsets: ["latin"],
-  variable: "--font-serif",
-  weight: ["400", "500", "600", "700"]
-});
-
-const sans = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-display",
   weight: ["400", "500", "600", "700", "800"]
 });
 
+const rounded = Fredoka({
+  subsets: ["latin"],
+  variable: "--font-rounded",
+  weight: ["300", "400", "500", "600", "700"]
+});
+
 export const metadata: Metadata = {
-  title: "WaffleHut | Crafted For Sweet Cravings",
-  description: "Luxury Belgian waffles with premium toppings and cinematic scroll-based storytelling.",
+  title: "WaffleHut | Hot Sweet Crispy",
+  description: "A playful cartoon waffle shop landing page with scroll-synced PNG animation, bright dessert visuals, and bouncy motion.",
   metadataBase: new URL("https://wafflehut.example"),
   openGraph: {
-    title: "WaffleHut | Crafted For Sweet Cravings",
-    description: "Luxury Belgian waffles with premium toppings and cinematic scroll-based storytelling.",
+    title: "WaffleHut | Hot Sweet Crispy",
+    description: "A playful cartoon waffle shop landing page with scroll-synced PNG animation and colorful dessert storytelling.",
     type: "website"
   }
 };
@@ -32,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${serif.variable} ${sans.variable} bg-brand-black text-brand-cream antialiased`}>
+      <body className={`${display.variable} ${rounded.variable} bg-waffle-night font-rounded text-waffle-cream antialiased`}>
         {children}
       </body>
     </html>
