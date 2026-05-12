@@ -34,44 +34,6 @@ export default function Page() {
         <WaffleSequence />
       </section>
 
-      <section className="relative mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16">
-        <div className="overflow-hidden rounded-[2.75rem] border border-white/55 bg-[linear-gradient(135deg,rgba(255,255,255,0.52),rgba(255,243,232,0.74))] p-6 shadow-waffle sm:p-8 lg:p-10">
-          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-            <div>
-              <p className="font-display text-[0.7rem] uppercase tracking-[0.45em] text-chocolate/55">WaffleHut story beat</p>
-              <h2 className="font-display mt-4 text-balance text-4xl font-bold text-chocolate sm:text-5xl lg:text-6xl">
-                Welcome To WaffleHut
-              </h2>
-              <p className="mt-5 max-w-2xl text-lg leading-8 text-chocolate/80">
-                The happiest waffles in town. This final beat turns the sequence into a bright call to action that feels warm, premium, and easy to share.
-              </p>
-            </div>
-
-            <div className="rounded-[2rem] border border-white/60 bg-white/55 p-5 backdrop-blur-xl sm:p-6">
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="rounded-[1.5rem] bg-white/70 p-4 shadow-[0_12px_30px_rgba(107,62,38,0.08)]">
-                  <p className="font-display text-xl font-bold text-chocolate">Order now</p>
-                  <p className="mt-2 text-sm leading-6 text-chocolate/75">Go straight to the menu moodboard and pick your stack.</p>
-                </div>
-                <div className="rounded-[1.5rem] bg-white/70 p-4 shadow-[0_12px_30px_rgba(107,62,38,0.08)]">
-                  <p className="font-display text-xl font-bold text-chocolate">Meet the shop</p>
-                  <p className="mt-2 text-sm leading-6 text-chocolate/75">See the brand vibe, colors, and dessert storytelling.</p>
-                </div>
-              </div>
-
-              <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                <a href="#menu" className="glossy-button inline-flex items-center justify-center">
-                  Order now
-                </a>
-                <a href="#visit" className="secondary-button inline-flex items-center justify-center">
-                  Meet the shop
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section id="menu" className="relative mx-auto max-w-7xl px-6 py-20 sm:px-10 lg:px-16">
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div className="max-w-xl">

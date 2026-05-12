@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { motion, type MotionValue, useMotionValueEvent, useScroll, useSpring, useTransform } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import WaffleHutImage from '../WaffleHut.png';
 
 const FRAME_COUNT = 143;
 const FRAME_PATHS = Array.from({ length: FRAME_COUNT }, (_, index) => `/frames/ezgif-frame-${String(index + 1).padStart(3, '0')}.png`);
@@ -132,8 +133,10 @@ export default function WaffleSequence() {
   const haloOpacity = useTransform(smoothProgress, [0, 0.15, 0.65, 1], [0.72, 0.95, 1, 0.82]);
   const haloScale = useTransform(smoothProgress, [0, 0.5, 1], [0.95, 1.06, 0.98]);
   const haloY = useTransform(smoothProgress, [0, 1], [0, 20]);
-  const stageOpacity = useTransform(smoothProgress, [0, 0.03, 0.97, 1], [0, 1, 1, 0]);
+  const stageOpacity = useTransform(smoothProgress, [0, 0.02, 0.97, 1], [1, 1, 1, 0]);
   const stageScale = useTransform(smoothProgress, [0, 0.4, 1], [0.99, 1, 1.01]);
+  const logoOpacity = useTransform(smoothProgress, [0, 0.1, 0.22], [1, 0.95, 0]);
+  const logoScale = useTransform(smoothProgress, [0, 0.12, 0.22], [1, 0.98, 0.96]);
 
   const drawCurrentFrame = useCallback(
     (progress: number) => {
@@ -318,19 +321,15 @@ export default function WaffleSequence() {
               className="absolute inset-0 z-10 block h-full w-full bg-transparent drop-shadow-[0_30px_90px_rgba(107,62,38,0.22)]"
               aria-hidden="true"
             />
+            <motion.img
+              src={WaffleHutImage.src}
+              alt="WaffleHut"
+              className="absolute left-[30%] top-1/2 z-40 w-[min(68vw,1040px)] -translate-x-1/2 -translate-y-1/2 select-none drop-shadow-[0_22px_70px_rgba(107,62,38,0.32)] sm:left-[28%] lg:left-[24%]"
+              style={{ opacity: logoOpacity, scale: logoScale }}
+              draggable={false}
+            />
           </div>
         </div>
-
-        <StoryBeat
-          progress={smoothProgress}
-          title="Freshly Baked Happiness"
-          subtitle="Cute crispy waffles made with love. The opening beat feels like a dessert ad lighting up the screen with warm syrup, soft shadows, and that first-bite glow."
-          align="center"
-          position="top"
-          start={0}
-          end={0.2}
-          tone="light"
-        />
 
         <StoryBeat
           progress={smoothProgress}
