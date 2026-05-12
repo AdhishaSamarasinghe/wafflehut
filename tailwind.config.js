@@ -5,28 +5,28 @@ module.exports = {
     extend: {
       colors: {
         waffle: {
-          night: "#1b1024",
-          cocoa: "#5b341c",
-          crust: "#8f5427",
-          beige: "#f5e1c8",
-          cream: "#fff4cf",
-          frosting: "#fff8fb",
-          honey: "#ffb347",
-          strawberry: "#ff6b8a",
-          blueberry: "#7d6cff",
-          sky: "#7cd6ff",
-          mint: "#85f4d2"
+          night: "#6b3e26",
+          cocoa: "#8a4f3d",
+          crust: "#d98b2b",
+          beige: "#f6d7b0",
+          cream: "#fff3e8",
+          frosting: "#ffd6e5",
+          honey: "#f4b942",
+          strawberry: "#ff7bac",
+          blueberry: "#d94a6a",
+          sky: "#f5a9c2",
+          mint: "#fff8f3"
         }
       },
       boxShadow: {
-        cartoon: "0 10px 0 rgba(63, 34, 13, 0.72), 0 24px 64px rgba(0, 0, 0, 0.32)",
-        bubble: "0 0 0 2px rgba(255, 255, 255, 0.14), 0 18px 50px rgba(255, 107, 138, 0.22)",
-        soft: "0 20px 70px rgba(0, 0, 0, 0.25)"
+        cartoon: "0 12px 0 rgba(107, 62, 38, 0.5), 0 26px 70px rgba(107, 62, 38, 0.24)",
+        bubble: "0 0 0 2px rgba(255, 255, 255, 0.16), 0 18px 54px rgba(255, 123, 172, 0.24)",
+        soft: "0 20px 70px rgba(107, 62, 38, 0.18)"
       },
       backgroundImage: {
-        "cartoon-sky": "radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.22), transparent 12%), radial-gradient(circle at 80% 18%, rgba(125, 108, 255, 0.28), transparent 16%), radial-gradient(circle at 50% 0%, rgba(255, 179, 71, 0.26), transparent 28%), linear-gradient(180deg, #2a1737 0%, #1b1024 45%, #130c1a 100%)",
-        "cartoon-panel": "linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04))",
-        "waffle-glow": "linear-gradient(135deg, rgba(255, 179, 71, 0.96), rgba(255, 107, 138, 0.75), rgba(125, 108, 255, 0.9))"
+        "cartoon-sky": "radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.65), transparent 12%), radial-gradient(circle at 82% 16%, rgba(255, 123, 172, 0.32), transparent 16%), radial-gradient(circle at 50% 0%, rgba(244, 185, 66, 0.3), transparent 30%), linear-gradient(180deg, #f5a9c2 0%, #ffd6e5 44%, #fff3e8 100%)",
+        "cartoon-panel": "linear-gradient(135deg, rgba(255, 243, 232, 0.75), rgba(255, 214, 229, 0.38))",
+        "waffle-glow": "linear-gradient(135deg, rgba(255, 123, 172, 0.96), rgba(244, 185, 66, 0.9), rgba(217, 74, 106, 0.95))"
       },
       fontFamily: {
         rounded: ["var(--font-rounded)", "sans-serif"],
