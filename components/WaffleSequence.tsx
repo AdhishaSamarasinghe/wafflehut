@@ -321,13 +321,21 @@ export default function WaffleSequence() {
               className="absolute inset-0 z-10 block h-full w-full bg-transparent drop-shadow-[0_30px_90px_rgba(107,62,38,0.22)]"
               aria-hidden="true"
             />
-            <motion.img
-              src={WaffleHutImage.src}
-              alt="WaffleHut"
-              className="absolute left-[30%] top-1/2 z-40 w-[min(52vw,760px)] -translate-x-1/2 -translate-y-1/2 select-none drop-shadow-[0_22px_70px_rgba(107,62,38,0.32)] sm:left-[28%] lg:left-[24%]"
-              style={{ opacity: logoOpacity, scale: logoScale }}
-              draggable={false}
-            />
+            <motion.div
+              aria-hidden="true"
+              className="absolute left-[36%] top-[34%] z-40 -translate-x-1/2 -translate-y-1/2 pointer-events-none sm:left-[34%] sm:top-[32%] lg:left-[30%] lg:top-[28%]"
+              style={{ scale: logoScale }}
+            >
+              <div className="relative grid place-items-center rounded-[2.5rem] border border-white/28 bg-[linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,243,232,0.06))] px-8 py-7 shadow-[0_18px_50px_rgba(107,62,38,0.06)] backdrop-blur-2xl sm:px-10 sm:py-8 lg:px-12 lg:py-10">
+                <motion.img
+                  src={WaffleHutImage.src}
+                  alt="WaffleHut"
+                  className="relative z-10 w-[min(34vw,500px)] select-none drop-shadow-[0_22px_70px_rgba(107,62,38,0.32)]"
+                  style={{ opacity: logoOpacity }}
+                  draggable={false}
+                />
+              </div>
+            </motion.div>
           </div>
         </div>
 
