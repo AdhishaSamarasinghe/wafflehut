@@ -63,16 +63,16 @@ function StoryBeat({ progress, title, subtitle, align, position, start, end, ton
       aria-hidden="true"
     >
       <div
-        className={`pointer-events-auto w-full max-w-[42rem] rounded-[2rem] border px-5 py-6 shadow-waffle backdrop-blur-xl sm:px-7 sm:py-7 ${toneStyle.title}`}
+        className={`pointer-events-auto w-full max-w-[min(42rem,calc(100vw-1.5rem))] rounded-[2rem] border px-4 py-5 shadow-waffle backdrop-blur-xl sm:px-7 sm:py-7 ${toneStyle.title}`}
         style={{ background: toneStyle.background, borderColor: toneStyle.borderColor }}
       >
         <p className={`font-display text-[0.65rem] uppercase tracking-[0.45em] ${tone === 'dark' || tone === 'berry' ? 'text-cream-white/72' : 'text-chocolate/60'}`}>
           WaffleHut story beat
         </p>
-        <h2 className={`font-display mt-3 text-balance text-4xl font-bold leading-[0.92] sm:text-5xl lg:text-7xl ${toneStyle.title}`}>
+        <h2 className={`font-display mt-3 text-balance text-3xl font-bold leading-[0.95] sm:text-5xl lg:text-7xl ${toneStyle.title}`}>
           {title}
         </h2>
-        <p className={`mt-4 max-w-2xl text-sm leading-7 sm:text-base sm:leading-8 ${toneStyle.body}`}>
+        <p className={`mt-4 max-w-2xl text-[0.92rem] leading-7 sm:text-base sm:leading-8 ${toneStyle.body}`}>
           {subtitle}
         </p>
 
@@ -96,15 +96,15 @@ function drawContain(context: CanvasRenderingContext2D, image: HTMLImageElement,
 function StoryCardBackdrop() {
   return (
     <>
-      <div className="syrup-blob absolute left-[6%] top-[10%] h-44 w-44 rounded-full bg-waffle-pink/35 blur-3xl" />
-      <div className="syrup-blob absolute right-[4%] top-[18%] h-52 w-52 rounded-full bg-honey-gold/25 blur-3xl" />
-      <div className="syrup-blob absolute bottom-[15%] left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-berry/12 blur-3xl" />
+      <div className="syrup-blob absolute left-[6%] top-[10%] h-28 w-28 rounded-full bg-waffle-pink/35 blur-3xl sm:h-44 sm:w-44" />
+      <div className="syrup-blob absolute right-[4%] top-[18%] h-32 w-32 rounded-full bg-honey-gold/25 blur-3xl sm:h-52 sm:w-52" />
+      <div className="syrup-blob absolute bottom-[15%] left-1/2 h-44 w-44 -translate-x-1/2 rounded-full bg-berry/12 blur-3xl sm:h-72 sm:w-72" />
 
-      <div className="waffle-sparkle absolute left-[12%] top-[12%] h-2.5 w-2.5 rounded-full bg-white/90 shadow-[0_0_22px_rgba(255,255,255,0.9)]" />
-      <div className="waffle-sparkle absolute left-[18%] top-[28%] h-3 w-3 rounded-full bg-cream-white shadow-[0_0_22px_rgba(255,255,255,0.9)]" />
-      <div className="waffle-sparkle absolute right-[14%] top-[16%] h-2.5 w-2.5 rounded-full bg-cream-white shadow-[0_0_22px_rgba(255,255,255,0.9)]" />
-      <div className="waffle-sparkle absolute right-[18%] bottom-[26%] h-3 w-3 rounded-full bg-white/90 shadow-[0_0_22px_rgba(255,255,255,0.9)]" />
-      <div className="waffle-sparkle absolute bottom-[18%] left-[18%] h-2.5 w-2.5 rounded-full bg-honey-gold shadow-[0_0_22px_rgba(244,185,66,0.9)]" />
+      <div className="waffle-sparkle absolute left-[12%] top-[12%] h-2 w-2 rounded-full bg-white/90 shadow-[0_0_14px_rgba(255,255,255,0.72)] sm:h-2.5 sm:w-2.5" />
+      <div className="waffle-sparkle absolute left-[18%] top-[28%] h-2.5 w-2.5 rounded-full bg-cream-white shadow-[0_0_14px_rgba(255,255,255,0.72)] sm:h-3 sm:w-3" />
+      <div className="waffle-sparkle absolute right-[14%] top-[16%] h-2 w-2 rounded-full bg-cream-white shadow-[0_0_14px_rgba(255,255,255,0.72)] sm:h-2.5 sm:w-2.5" />
+      <div className="waffle-sparkle absolute right-[18%] bottom-[26%] h-2.5 w-2.5 rounded-full bg-white/90 shadow-[0_0_14px_rgba(255,255,255,0.72)] sm:h-3 sm:w-3" />
+      <div className="waffle-sparkle absolute bottom-[18%] left-[18%] h-2 w-2 rounded-full bg-honey-gold shadow-[0_0_14px_rgba(244,185,66,0.72)] sm:h-2.5 sm:w-2.5" />
     </>
   );
 }
@@ -315,7 +315,7 @@ export default function WaffleSequence() {
 
         <div className="absolute inset-0 flex items-center justify-center">
           <div ref={stageRef} className="relative h-screen w-screen">
-            <div className="canvas-halo absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.78),rgba(255,255,255,0.16)_42%,rgba(255,255,255,0)_72%)] blur-3xl" />
+            <div className="canvas-halo absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.78),rgba(255,255,255,0.16)_42%,rgba(255,255,255,0)_72%)] blur-2xl sm:blur-3xl" />
             <canvas
               ref={canvasRef}
               className="absolute inset-0 z-10 block h-full w-full bg-transparent drop-shadow-[0_30px_90px_rgba(107,62,38,0.22)]"
@@ -323,14 +323,14 @@ export default function WaffleSequence() {
             />
             <motion.div
               aria-hidden="true"
-              className="absolute left-[36%] top-[34%] z-40 -translate-x-1/2 -translate-y-1/2 pointer-events-none sm:left-[34%] sm:top-[32%] lg:left-[30%] lg:top-[28%]"
+              className="absolute left-1/2 top-[30%] z-40 -translate-x-1/2 -translate-y-1/2 pointer-events-none sm:left-[34%] sm:top-[32%] lg:left-[30%] lg:top-[28%]"
               style={{ opacity: logoOpacity, scale: logoScale }}
             >
               <div className="relative grid place-items-center rounded-[2.5rem] border border-white/28 bg-[linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,243,232,0.06))] px-8 py-7 shadow-[0_18px_50px_rgba(107,62,38,0.06)] backdrop-blur-2xl sm:px-10 sm:py-8 lg:px-12 lg:py-10">
                 <motion.img
                   src={WaffleHutImage.src}
                   alt="WaffleHut"
-                  className="relative z-10 w-[min(34vw,500px)] select-none drop-shadow-[0_22px_70px_rgba(107,62,38,0.32)]"
+                  className="relative z-10 w-[min(74vw,500px)] select-none drop-shadow-[0_22px_70px_rgba(107,62,38,0.32)] sm:w-[min(34vw,500px)]"
                   draggable={false}
                 />
               </div>
