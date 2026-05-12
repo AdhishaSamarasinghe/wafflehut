@@ -30,6 +30,10 @@ export default function Page() {
         <div className="absolute left-1/2 top-[42rem] h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-berry/10 blur-3xl" />
       </div>
 
+      <section id="story">
+        <WaffleSequence />
+      </section>
+
       <section className="relative mx-auto max-w-7xl px-6 pb-16 pt-6 sm:px-10 lg:px-16">
         <header className="flex items-center justify-between gap-4">
           <a href="#top" className="glass-panel inline-flex items-center gap-3 rounded-full px-4 py-2">
@@ -111,10 +115,6 @@ export default function Page() {
             </div>
           </div>
         </div>
-      </section>
-
-      <section id="story">
-        <WaffleSequence />
       </section>
 
       <section id="menu" className="relative mx-auto max-w-7xl px-6 py-20 sm:px-10 lg:px-16">
