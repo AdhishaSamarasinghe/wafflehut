@@ -17,7 +17,6 @@ type StoryBeatProps = {
   start: number;
   end: number;
   tone: 'light' | 'dark' | 'berry' | 'sunny';
-  cta?: boolean;
 };
 
 const toneStyles = {
@@ -47,7 +46,7 @@ const toneStyles = {
   },
 } as const;
 
-function StoryBeat({ progress, title, subtitle, align, position, start, end, tone, cta }: StoryBeatProps) {
+function StoryBeat({ progress, title, subtitle, align, position, start, end, tone }: StoryBeatProps) {
   const opacity = useTransform(progress, [start, start + 0.05, end - 0.05, end], [0, 1, 1, 0]);
   const y = useTransform(progress, [start, start + 0.05, end - 0.05, end], [24, 0, 0, -24]);
   const scale = useTransform(progress, [start, start + 0.08, end - 0.08, end], [0.98, 1, 1, 0.98]);
@@ -76,16 +75,6 @@ function StoryBeat({ progress, title, subtitle, align, position, start, end, ton
           {subtitle}
         </p>
 
-        {cta ? (
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <a href="#menu" className="glossy-button inline-flex items-center justify-center">
-              Order now
-            </a>
-            <a href="#visit" className="secondary-button inline-flex items-center justify-center">
-              Meet the shop
-            </a>
-          </div>
-        ) : null}
       </div>
     </motion.div>
   );
@@ -94,7 +83,7 @@ function StoryBeat({ progress, title, subtitle, align, position, start, end, ton
 function drawContain(context: CanvasRenderingContext2D, image: HTMLImageElement, width: number, height: number) {
   const naturalWidth = image.naturalWidth || image.width;
   const naturalHeight = image.naturalHeight || image.height;
-  const scale = Math.min((width * 0.92) / naturalWidth, (height * 0.92) / naturalHeight);
+  const scale = Math.max((width * 1.02) / naturalWidth, (height * 1.02) / naturalHeight);
   const drawWidth = naturalWidth * scale;
   const drawHeight = naturalHeight * scale;
   const x = (width - drawWidth) / 2;
@@ -143,6 +132,8 @@ export default function WaffleSequence() {
   const haloOpacity = useTransform(smoothProgress, [0, 0.15, 0.65, 1], [0.72, 0.95, 1, 0.82]);
   const haloScale = useTransform(smoothProgress, [0, 0.5, 1], [0.95, 1.06, 0.98]);
   const haloY = useTransform(smoothProgress, [0, 1], [0, 20]);
+  const stageOpacity = useTransform(smoothProgress, [0, 0.03, 0.97, 1], [0, 1, 1, 0]);
+  const stageScale = useTransform(smoothProgress, [0, 0.4, 1], [0.99, 1, 1.01]);
 
   const drawCurrentFrame = useCallback(
     (progress: number) => {
@@ -302,8 +293,8 @@ export default function WaffleSequence() {
   });
 
   return (
-    <section ref={sectionRef} className="relative h-[400vh] w-full overflow-hidden bg-[linear-gradient(180deg,#f5a9c2_0%,#fff3e8_52%,#f6d7b0_100%)]">
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+    <section ref={sectionRef} className="relative h-[400vh] w-full overflow-x-hidden bg-[linear-gradient(180deg,#f5a9c2_0%,#fff3e8_52%,#f6d7b0_100%)]">
+      <motion.div className="fixed inset-0 z-0 h-screen w-full overflow-hidden" style={{ opacity: stageOpacity, scale: stageScale }}>
         <motion.div aria-hidden="true" className="absolute inset-0 bg-waffle-radial" style={{ opacity: haloOpacity, scale: haloScale, y: haloY }} />
 
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.48),rgba(255,255,255,0)_48%)]" />
@@ -319,10 +310,14 @@ export default function WaffleSequence() {
           </div>
         </div>
 
-        <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-6 lg:px-10">
-          <div ref={stageRef} className="relative flex h-[min(66vh,44rem)] w-full max-w-[74rem] items-center justify-center">
-            <div className="canvas-halo absolute inset-4 rounded-[2.5rem] bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.72),rgba(255,255,255,0.08)_50%,rgba(255,255,255,0)_74%)] blur-2xl" />
-            <canvas ref={canvasRef} className="relative z-10 h-full w-full drop-shadow-[0_30px_90px_rgba(107,62,38,0.26)]" aria-hidden="true" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div ref={stageRef} className="relative h-screen w-screen">
+            <div className="canvas-halo absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.78),rgba(255,255,255,0.16)_42%,rgba(255,255,255,0)_72%)] blur-3xl" />
+            <canvas
+              ref={canvasRef}
+              className="absolute inset-0 z-10 block h-full w-full bg-transparent drop-shadow-[0_30px_90px_rgba(107,62,38,0.22)]"
+              aria-hidden="true"
+            />
           </div>
         </div>
 
@@ -359,18 +354,6 @@ export default function WaffleSequence() {
           tone="berry"
         />
 
-        <StoryBeat
-          progress={smoothProgress}
-          title="Welcome To WaffleHut"
-          subtitle="The happiest waffles in town. This final beat turns the sequence into a bright call to action that feels warm, premium, and easy to share."
-          align="center"
-          position="bottom"
-          start={0.75}
-          end={0.95}
-          tone="sunny"
-          cta
-        />
-
         <motion.div
           className="pointer-events-none absolute inset-x-0 bottom-5 z-30 flex justify-center px-6"
           initial={{ opacity: 0, y: 8 }}
@@ -392,7 +375,9 @@ export default function WaffleSequence() {
             </div>
           </div>
         </motion.div>
-      </div>
+      </motion.div>
+
+      <div aria-hidden="true" className="h-full w-full" />
     </section>
   );
 }
