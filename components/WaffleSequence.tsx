@@ -307,7 +307,7 @@ export default function WaffleSequence() {
             <motion.img
               src={WaffleHutLogoImage.src}
               alt="WaffleHut"
-              className="block h-10 w-auto select-none drop-shadow-[0_10px_24px_rgba(107,62,38,0.18)] sm:h-12"
+              className="block h-14 w-auto select-none drop-shadow-[0_10px_24px_rgba(107,62,38,0.18)] sm:h-16"
               draggable={false}
             />
           </motion.div>
@@ -320,7 +320,7 @@ export default function WaffleSequence() {
             <motion.img
               src={WaffleHutImage.src}
               alt="WaffleHut"
-              className="block w-[min(30vw,170px)] select-none drop-shadow-[0_10px_28px_rgba(107,62,38,0.22)] sm:w-[min(18vw,190px)]"
+              className="block w-[min(38vw,220px)] select-none drop-shadow-[0_10px_28px_rgba(107,62,38,0.22)] sm:w-[min(24vw,250px)]"
               draggable={false}
             />
           </motion.div>
