@@ -324,7 +324,7 @@ export default function WaffleSequence() {
             <motion.img
               src={WaffleHutImage.src}
               alt="WaffleHut"
-              className="absolute left-[30%] top-1/2 z-40 w-[min(68vw,1040px)] -translate-x-1/2 -translate-y-1/2 select-none drop-shadow-[0_22px_70px_rgba(107,62,38,0.32)] sm:left-[28%] lg:left-[24%]"
+              className="absolute left-[30%] top-1/2 z-40 w-[min(52vw,760px)] -translate-x-1/2 -translate-y-1/2 select-none drop-shadow-[0_22px_70px_rgba(107,62,38,0.32)] sm:left-[28%] lg:left-[24%]"
               style={{ opacity: logoOpacity, scale: logoScale }}
               draggable={false}
             />
