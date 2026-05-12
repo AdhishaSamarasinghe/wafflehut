@@ -135,9 +135,6 @@ export default function WaffleSequence() {
   const haloY = useTransform(smoothProgress, [0, 1], [0, 20]);
   const stageOpacity = useTransform(smoothProgress, [0, 0.02, 0.97, 1], [1, 1, 1, 0]);
   const stageScale = useTransform(smoothProgress, [0, 0.4, 1], [0.99, 1, 1.01]);
-  const logoOpacity = useTransform(smoothProgress, [0, 0.1, 0.22], [1, 0.95, 0]);
-  const logoScale = useTransform(smoothProgress, [0, 0.12, 0.22], [1, 0.98, 0.96]);
-
   const drawCurrentFrame = useCallback(
     (progress: number) => {
       const canvas = canvasRef.current;
@@ -304,13 +301,23 @@ export default function WaffleSequence() {
 
         <StoryCardBackdrop />
 
-        <div className="absolute inset-x-0 top-0 z-30 flex items-center justify-between px-4 py-4 sm:px-6 lg:px-10">
+        <div className="absolute inset-x-0 top-0 z-30 flex items-start justify-between px-4 py-4 sm:px-6 lg:px-10">
           <div className="glass-panel rounded-full px-4 py-2 text-xs font-bold uppercase tracking-[0.35em] text-chocolate/70">
             Scroll To Explore
           </div>
-          <div className="glass-panel rounded-full px-4 py-2 text-xs font-bold uppercase tracking-[0.35em] text-chocolate/70">
-            {loadProgress}% loaded
-          </div>
+
+          <motion.div
+            aria-hidden="true"
+            className="pointer-events-none"
+            style={{ opacity: 1, scale: 1 }}
+          >
+            <motion.img
+              src={WaffleHutImage.src}
+              alt="WaffleHut"
+              className="block w-[min(30vw,170px)] select-none drop-shadow-[0_10px_28px_rgba(107,62,38,0.22)] sm:w-[min(18vw,190px)]"
+              draggable={false}
+            />
+          </motion.div>
         </div>
 
         <div className="absolute inset-0 flex items-center justify-center">
@@ -321,20 +328,6 @@ export default function WaffleSequence() {
               className="absolute inset-0 z-10 block h-full w-full bg-transparent drop-shadow-[0_30px_90px_rgba(107,62,38,0.22)]"
               aria-hidden="true"
             />
-            <motion.div
-              aria-hidden="true"
-              className="absolute left-1/2 top-[30%] z-40 -translate-x-1/2 -translate-y-1/2 pointer-events-none sm:left-[34%] sm:top-[32%] lg:left-[30%] lg:top-[28%]"
-              style={{ opacity: logoOpacity, scale: logoScale }}
-            >
-              <div className="relative grid place-items-center rounded-[2.5rem] border border-white/28 bg-[linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,243,232,0.06))] px-8 py-7 shadow-[0_18px_50px_rgba(107,62,38,0.06)] backdrop-blur-2xl sm:px-10 sm:py-8 lg:px-12 lg:py-10">
-                <motion.img
-                  src={WaffleHutImage.src}
-                  alt="WaffleHut"
-                  className="relative z-10 w-[min(74vw,500px)] select-none drop-shadow-[0_22px_70px_rgba(107,62,38,0.32)] sm:w-[min(34vw,500px)]"
-                  draggable={false}
-                />
-              </div>
-            </motion.div>
           </div>
         </div>
 
