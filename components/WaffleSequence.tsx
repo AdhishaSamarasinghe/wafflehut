@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { motion, type MotionValue, useMotionValueEvent, useScroll, useSpring, useTransform } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import WaffleHutLogoImage from '../WaffleHutLogo.png';
 import WaffleHutImage from '../WaffleHut.png';
 
 const FRAME_COUNT = 143;
@@ -302,9 +303,14 @@ export default function WaffleSequence() {
         <StoryCardBackdrop />
 
         <div className="absolute inset-x-0 top-0 z-30 flex items-start justify-between px-4 py-4 sm:px-6 lg:px-10">
-          <div className="glass-panel rounded-full px-4 py-2 text-xs font-bold uppercase tracking-[0.35em] text-chocolate/70">
-            Scroll To Explore
-          </div>
+          <motion.div aria-hidden="true" className="pointer-events-none">
+            <motion.img
+              src={WaffleHutLogoImage.src}
+              alt="WaffleHut"
+              className="block h-10 w-auto select-none drop-shadow-[0_10px_24px_rgba(107,62,38,0.18)] sm:h-12"
+              draggable={false}
+            />
+          </motion.div>
 
           <motion.div
             aria-hidden="true"

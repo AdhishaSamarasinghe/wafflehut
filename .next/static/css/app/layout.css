@@ -684,6 +684,9 @@ video {
 .h-screen{
   height: 100vh;
 }
+.h-10{
+  height: 2.5rem;
+}
 .w-16{
   width: 4rem;
 }
@@ -719,6 +722,9 @@ video {
 }
 .w-screen{
   width: 100vw;
+}
+.w-auto{
+  width: auto;
 }
 .max-w-2xl{
   max-width: 42rem;
@@ -1104,6 +1110,10 @@ video {
   --tw-drop-shadow: drop-shadow(0 30px 90px rgba(107,62,38,0.22));
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
+.drop-shadow-\[0_10px_24px_rgba\(107\2c 62\2c 38\2c 0\.18\)\]{
+  --tw-drop-shadow: drop-shadow(0 10px 24px rgba(107,62,38,0.18));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
 .backdrop-blur-2xl{
   --tw-backdrop-blur: blur(40px);
   backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
@@ -1368,6 +1378,10 @@ h3,
 
   .sm\:h-72{
     height: 18rem;
+  }
+
+  .sm\:h-12{
+    height: 3rem;
   }
 
   .sm\:w-2\.5{
